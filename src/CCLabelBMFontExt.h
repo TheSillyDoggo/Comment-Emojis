@@ -6,6 +6,13 @@
 
 using namespace geode::prelude;
 
+std::pair<std::string, std::string> _Emoji(std::string name)
+{
+    auto spr = std::string(""_spr);
+
+    return std::pair(name, spr + (name + std::string(".png")));
+}
+
 std::vector<std::pair<std::string, std::string>> emojis = {
     std::pair("auto", "diffIcon_auto_btn_001.png"),
     std::pair("na", "diffIcon_00_btn_001.png"),
@@ -46,6 +53,28 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     std::pair("mod", "modBadge_01_001.png"),
     std::pair("eldermod", "modBadge_02_001.png"),
     std::pair("leaderboardmod", "modBadge_03_001.png"),
+
+    //discord
+    _Emoji("shushing_face"),
+    _Emoji("deaf_person"),
+    _Emoji("deaf_man"),
+    _Emoji("deaf_woman"),
+    _Emoji("bear"),
+    _Emoji("broken_heart"),
+    _Emoji("cat"),
+    _Emoji("dog"),
+    _Emoji("fox"),
+    _Emoji("gun"),
+    _Emoji("face_with_raised_eyebrow"),
+    _Emoji("middle_finger"),
+    _Emoji("moyai"),
+    _Emoji("fire"),
+    _Emoji("nerd"),
+    _Emoji("radioactive"),
+    _Emoji("shocked_face"),
+    _Emoji("skull"),
+    _Emoji("smiling_imp"),
+    _Emoji("speaking_head"),
 };
 
 enum LabelPartType
@@ -132,8 +161,9 @@ class CCLabelBMFontExt : public CCNode
             int yPos = 0;
             float height = 0;
 
-
             float commentHeight = CCLabelBMFont::create("l", font.c_str())->getContentHeight();
+
+            this->removeAllChildren();
 
             for (size_t i = 0; i < parts.size(); i++)
             {
@@ -150,6 +180,18 @@ class CCLabelBMFontExt : public CCNode
                     height = std::max<float>(height, lbl->getScaledContentSize().height);
                     pos += lbl->getScaledContentSize().width;
                     wid = std::max<float>(wid, pos);
+
+                    if (maxX != 0)
+                    {
+                        if (pos > maxX)
+                        {
+                            wid = std::max<float>(wid, pos);
+                            pos = 0;
+                            yPos++;
+
+                            lbl->setPosition(ccp(pos, -20 * yPos));
+                        }
+                    }
                 }
                 else if (seg.type == LabelPartType::Emoji)
                 {
@@ -167,15 +209,17 @@ class CCLabelBMFontExt : public CCNode
                     height = std::max<float>(height, emoji->getScaledContentSize().height);
                     pos += emoji->getScaledContentSize().width + 2 - 0.75f;
                     wid = std::max<float>(wid, pos);
-                }
 
-                if (maxX != 0)
-                {
-                    if (pos > maxX)
+                    if (maxX != 0)
                     {
-                        wid = std::max<float>(wid, pos);
-                        pos = 0;
-                        yPos++;
+                        if (pos > maxX)
+                        {
+                            wid = std::max<float>(wid, pos);
+                            pos = 0;
+                            yPos++;
+
+                            emoji->setPosition(ccp(pos + 2, -20 * yPos));
+                        }
                     }
                 }
             }

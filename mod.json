@@ -15,6 +15,16 @@
             "importance": "required"
         }
     ],
+	"resources": {
+		"spritesheets": {
+			"GJ_EmojiSheet": [
+				"emojis/discord/*.png"
+			],
+			"GJ_EmojiUISheet": [
+				"resources/*.png"
+			]
+		}
+	},
 	"developer": "TheSillyDoggo",
 	"description": "geometry dash sex real ?! (not faek)"
 }
