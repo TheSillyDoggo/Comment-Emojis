@@ -1,8 +1,20 @@
 {
-	"geode": "2.0.0-beta.9",
-	"version": "v1.0.0",
+	"geode": "2.0.0",
+	"version": "v0.0.1",
+	"gd": {
+		"win": "2.204",
+        "mac": "2.200",
+		"android": "*"
+	},
 	"id": "thesillydoggo.comment_emojis",
 	"name": "Comment Emojis",
+	"dependencies": [
+        {
+            "id": "geode.node-ids",
+            "version": "v1.6.1",
+            "importance": "required"
+        }
+    ],
 	"developer": "TheSillyDoggo",
 	"description": "geometry dash sex real ?! (not faek)"
 }
