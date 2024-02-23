@@ -98,7 +98,7 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 
 		if (auto l = as<CCLayer*>(this->getChildren()->objectAtIndex(0)))
 		{
-			if (auto i = as<CCTextInputNode*>(l->getChildren()->objectAtIndex(4)))
+			if (auto i = getChildOfType<CCTextInputNode>(l, 0))
 				m_fields->inp = i;
 
 			if (auto m = as<CCMenu*>(l->getChildren()->objectAtIndex(2)))

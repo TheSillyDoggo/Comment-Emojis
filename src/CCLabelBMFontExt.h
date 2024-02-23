@@ -54,6 +54,9 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     std::pair("eldermod", "modBadge_02_001.png"),
     std::pair("leaderboardmod", "modBadge_03_001.png"),
 
+    //other
+    _Emoji("carlos"),
+
     //discord
     _Emoji("shushing_face"),
     _Emoji("deaf_person"),

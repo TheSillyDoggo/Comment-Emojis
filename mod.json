@@ -20,6 +20,9 @@
 			"GJ_EmojiSheet": [
 				"emojis/discord/*.png"
 			],
+			"GJ_EmojiSheet02": [
+				"emojis/other/*.png"
+			],
 			"GJ_EmojiUISheet": [
 				"resources/*.png"
 			]
