@@ -96,8 +96,6 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 	{
 		if (!ShareCommentLayer::init(p0, p1, p2, p3, p4))
 			return false;
-
-		log::info(p0.c_str());
 		
 		if (!(std::string(p0) == "Post Update" || std::string(p0) == "Add Comment"))
 			return true;
