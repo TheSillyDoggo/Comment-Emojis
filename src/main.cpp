@@ -42,8 +42,9 @@ class $modify (CommentCell)
 			if (lbl2)
 			{
 				lbl2->setPosition(txt->getPosition());
-				lbl2->setAnchorPoint(txt->getAnchorPoint());
-				lbl2->setMaxX(310);
+				lbl2->setAnchorPoint(ccp(0, 0));
+				lbl2->setMaxX(310, true);
+				lbl2->limitLabelHeight(50, 1.0f, 0.1f);
 
 				as<CCLayerColor*>(this->getChildren()->objectAtIndex(1))->addChild(lbl2);
 			}
@@ -127,12 +128,20 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 		bg->setPosition(ccp(0, 0));
 		menu->addChild(bg);
 
+		auto scroll = ScrollLayer::create(menu->getContentSize() + ccp(-20, -20));
+		scroll->setPosition(ccp(10, 10));
+		menu->addChild(scroll);
+
 		int x = 0;
 		int y = 0;
 
-		int rowCount = 7;
+		int rowCount = 8;
 
-		float size = (menu->getContentWidth() - 20 - 20) / (rowCount - 1);
+		float size = (scroll->getContentWidth() - 10 - 10) / (rowCount - 1);
+
+		auto m = CCMenu::create();
+		m->setPosition(ccp(0, 0));
+		m->setContentHeight(9999);
 
 		for (size_t i = 0; i < emojis.size(); i++)
 		{
@@ -145,8 +154,9 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 				auto btn = CCMenuItemSpriteExtra::create(spr, this, menu_selector(ShareCommentLayerExt::onSelectEmoji));
 				btn->setID(emojis[i].first);
 
-				btn->setPosition(ccp( (size * x) + 20, (size * y) + 20));
-				menu->addChild(btn);
+				btn->setPosition(ccp( (size * x) + 10, (size * y) + 10));
+				//menu->addChild(btn);
+				m->addChild(btn);
 
 				x++;
 
@@ -157,7 +167,9 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 				}
 			}
 		}
-		
+
+		scroll->m_contentLayer->addChild(m);
+		scroll->m_contentLayer->setContentHeight(size * y + (10 + 10));
 
 		this->addChild(menu);
 
