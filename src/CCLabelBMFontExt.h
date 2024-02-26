@@ -47,6 +47,7 @@ std::vector<std::pair<std::string, std::string>> emojis = {
 
     std::pair("goldcoin", "GJ_coinsIcon_001.png"),
     std::pair("uncollectedusercoin", "GJ_coinsIcon_gray_001.png"),
+    _Emoji("usercoinunverified"),
     std::pair("usercoin", "GJ_coinsIcon2_001.png"),
     std::pair("points", "GJ_pointsIcon_001.png"),
 
@@ -74,9 +75,15 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("whadahell"),
     _Emoji("youshould"),
     _Emoji("car"),
+    _Emoji("zoink"),
+    _Emoji("shocked"),
+    _Emoji("poppinbottles"),
+    _Emoji("party"),
+    _Emoji("dabmeup"),
     _Emoji("fireinthehole"),
 
     //discord
+    _Emoji("100"),
     _Emoji("shushing_face"),
     _Emoji("deaf_person"),
     _Emoji("deaf_man"),
