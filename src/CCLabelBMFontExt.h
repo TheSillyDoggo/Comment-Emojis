@@ -122,7 +122,7 @@ struct LabelPart
     LabelPart(LabelPartType type, std::string ext)
     {
         this->type = type;
-        this->extra = geode::utils::string::toLower(ext);
+        this->extra = ext;
     }
 
     std::string fileNameForEmoji()
@@ -132,7 +132,7 @@ struct LabelPart
 
         for (size_t i = 0; i < emojis.size(); i++)
         {
-            if (emojis[i].first == extra)
+            if (geode::utils::string::toLower(emojis[i].first) == geode::utils::string::toLower(extra))
                 return emojis[i].second;
         }
 
@@ -236,7 +236,7 @@ class CCLabelBMFontExt : public CCMenu
             for (size_t i = 0; i < parts.size(); i++)
             {
                 auto seg = parts[i];
-                log::info("type: {}, extra: {}, filename: {}", seg.type == LabelPartType::Emoji ? "Emoji" : "Text", seg.extra, seg.fileNameForEmoji());
+                //log::info("type: {}, extra: {}, filename: {}", seg.type == LabelPartType::Emoji ? "Emoji" : "Text", seg.extra, seg.fileNameForEmoji());
 
                 if (seg.type == LabelPartType::Text)
                 {
@@ -294,6 +294,12 @@ class CCLabelBMFontExt : public CCMenu
                         }
                     }
                 }
+            }
+
+            CCArrayExt<CCNode*> objects = this->getChildren();
+
+            for (auto* obj : objects) {
+                obj->setPositionY(obj->getPositionY() + (20 * yPos));
             }
 
             this->setContentSize(ccp(wid, /*height*/20 * (yPos + 1)));

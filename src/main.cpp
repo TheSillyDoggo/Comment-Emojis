@@ -41,8 +41,8 @@ class $modify (CommentCell)
 
 			if (lbl2)
 			{
-				lbl2->setPosition(txt->getPosition());
-				lbl2->setAnchorPoint(ccp(0, 0));
+				lbl2->setPosition(ccp(10, 40));
+				lbl2->setAnchorPoint(ccp(0, 0.5f));
 				lbl2->setMaxX(310, true);
 				lbl2->limitLabelHeight(50, 1.0f, 0.1f);
 
