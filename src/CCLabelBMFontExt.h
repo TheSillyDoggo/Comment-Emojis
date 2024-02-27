@@ -336,6 +336,17 @@ class CCLabelBMFontExt : public CCMenu
                 updateLabel();
         }
 
+        float clampf(float v, float min, float max)
+        {
+            if (v < min)
+                v = min;
+
+            if (v > max)
+                v = max;
+
+            return v;
+        }
+
         void limitLabelWidth(float width, float defaultScale, float minScale)
         {
             this->setScale(clampf(width / this->getContentSize().width, minScale, defaultScale));

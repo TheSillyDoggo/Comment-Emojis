@@ -74,6 +74,19 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 		auto menu = m_fields->commentMenu;
 		menu->stopAllActions();
 
+		#ifdef GEODE_IS_MACOS
+
+		if (m_fields->visible)
+		{
+			menu->runAction((CCMoveTo::create(0.75f, ccp(CCDirector::get()->getWinSize().width, 0))));
+		}
+		else
+		{
+			menu->runAction((CCMoveTo::create(0.75f, ccp(CCDirector::get()->getWinSize().width + menu->getContentSize().width, 0))));
+		}
+
+		#else
+
 		if (m_fields->visible)
 		{
 			menu->runAction(CCEaseInOut::create(CCMoveTo::create(0.75f, ccp(CCDirector::get()->getWinSize().width, 0)), 2));
@@ -82,6 +95,8 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 		{
 			menu->runAction(CCEaseInOut::create(CCMoveTo::create(0.75f, ccp(CCDirector::get()->getWinSize().width + menu->getContentSize().width, 0)), 2));
 		}
+
+		#endif
 	}
 
 	void onSelectEmoji(CCObject* sender)
