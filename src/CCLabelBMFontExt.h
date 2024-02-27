@@ -81,6 +81,7 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("party"),
     _Emoji("dabmeup"),
     _Emoji("fireinthehole"),
+    _Emoji("xcreatorgoal"),
 
     //discord
     _Emoji("100"),

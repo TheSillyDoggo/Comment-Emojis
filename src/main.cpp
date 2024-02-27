@@ -41,10 +41,17 @@ class $modify (CommentCell)
 
 			if (lbl2)
 			{
-				lbl2->setPosition(ccp(10, 40));
+				if (this->m_accountComment)
+					lbl2->setPosition(ccp(10, 40));
+				else
+					lbl2->setPosition(ccp(10, 32.5f));
+
 				lbl2->setAnchorPoint(ccp(0, 0.5f));
 				lbl2->setMaxX(310, true);
-				lbl2->limitLabelHeight(50, 1.0f, 0.1f);
+				if (this->m_accountComment)
+					lbl2->limitLabelHeight(50, 1.0f, 0.1f);
+				else
+					lbl2->limitLabelHeight(45, 1.0f, 0.1f);
 
 				as<CCLayerColor*>(this->getChildren()->objectAtIndex(1))->addChild(lbl2);
 			}
