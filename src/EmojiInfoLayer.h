@@ -1,3 +1,5 @@
+#ifndef GEODE_IS_MACOS
+
 #pragma once
 
 #include <Geode/Geode.hpp>
@@ -89,3 +91,5 @@ class EmojiInfoLayer : public CCLayerColor
             CCScene::get()->addChild(pRet, CCScene::get()->getHighestChildZ() + 1);
         }
 };
+
+#endif

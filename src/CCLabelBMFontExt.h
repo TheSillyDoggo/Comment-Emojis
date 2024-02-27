@@ -158,9 +158,11 @@ class CCLabelBMFontExt : public CCMenu
 
         void onEmoji(CCObject* sender)
         {
+            #ifndef GEODE_IS_MACOS
             auto str = as<CCNode*>(sender)->getID();
 
             EmojiInfoLayer::addToScene(str);
+            #endif
         }
 
         virtual void updateLabel() // copying types from normal label
@@ -277,6 +279,10 @@ class CCLabelBMFontExt : public CCMenu
 
                     emojiBtn->setPosition(ccp(pos + 2, -20 * yPos) + (emojiBtn->getScaledContentSize() / 2));
                     this->addChild(emojiBtn);
+
+                    #ifdef GEODE_IS_MACOS
+                    emojiBtn->setEnabled(false);
+                    #endif
 
                     height = std::max<float>(height, emoji->getScaledContentSize().height);
                     pos += emojiBtn->getScaledContentSize().width + 2 - 0.75f;
