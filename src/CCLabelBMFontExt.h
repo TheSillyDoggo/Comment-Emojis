@@ -4,6 +4,10 @@
 #include <Geode/modify/CCNode.hpp>
 #include <Geode/modify/CCLabelBMFont.hpp>
 
+#include <iostream>
+#include <regex>
+#include <string>
+
 using namespace geode::prelude;
 
 std::pair<std::string, std::string> _Emoji(std::string name)
@@ -82,6 +86,11 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("dabmeup"),
     _Emoji("fireinthehole"),
     _Emoji("xcreatorgoal"),
+    _Emoji("soggy"),
+    _Emoji("mayo"),
+    _Emoji("divine"),
+    _Emoji("rattledash"),
+    _Emoji("gd"),
 
     //discord
     _Emoji("100"),
@@ -105,6 +114,9 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("skull"),
     _Emoji("smiling_imp"),
     _Emoji("speaking_head"),
+    _Emoji("sob"),
+    _Emoji("eggplant"),
+    _Emoji("clown"),
 };
 
 #include "EmojiInfoLayer.h"
@@ -112,7 +124,10 @@ std::vector<std::pair<std::string, std::string>> emojis = {
 enum LabelPartType
 {
     Text,
-    Emoji
+    Emoji,
+    Username,
+    Url,
+    Level
 };
 
 struct LabelPart
@@ -156,6 +171,19 @@ class CCLabelBMFontExt : public CCMenu
 
         float maxX;
 
+        bool isUrl(std::string str) {
+            std::regex pattern("^(https?://)?[\\w\\-]+(\\.[\\w\\-]+)+[/\\w\\-\\.,@?^=%&:/~\\+#]*");
+    
+            return std::regex_match(str, pattern);
+        }
+
+        bool isLevel(std::string str)
+        {
+            std::regex pattern("^[0-9]+$");
+    
+            return std::regex_match(str, pattern);
+        }
+
         void onEmoji(CCObject* sender)
         {
             #ifndef GEODE_IS_MACOS
@@ -163,6 +191,58 @@ class CCLabelBMFontExt : public CCMenu
 
             EmojiInfoLayer::addToScene(str);
             #endif
+        }
+
+        void onUsername(CCObject* sender)
+        {
+            auto str = as<CCNode*>(sender)->getID();
+
+            log::info("username: {}", str);
+
+            auto search = GJSearchObject::create(SearchType::Users, str.c_str());
+            auto browser = LevelBrowserLayer::create(search);
+
+            auto scene = CCScene::create();
+            scene->addChild(browser);
+
+            CCDirector::get()->pushScene(CCTransitionFade::create(0.5f, scene));
+
+            //usernameForUserID()
+        }
+
+        void onLevel(CCObject* sender)
+        {
+            auto str = as<CCNode*>(sender)->getID();
+
+            log::info("level: {}", str);
+
+            auto search = GJSearchObject::create(SearchType::Search, str.c_str());
+            auto browser = LevelBrowserLayer::create(search);
+
+            auto scene = CCScene::create();
+            scene->addChild(browser);
+
+            CCDirector::get()->pushScene(CCTransitionFade::create(0.5f, scene));
+
+            //usernameForUserID()
+        }
+
+        void onUrl(CCObject* sender)
+        {
+            auto str = as<CCNode*>(sender)->getID();
+
+            log::info("url: {}", str);
+
+            geode::createQuickPopup(
+                "Hold Up!",
+                "Links are spooky! Are you sure you want to go to\n<cy>" + str + "</c>?",
+                "Cancel", "Yes",
+                [str](FLAlertLayer*, bool btn2) {
+                    if (btn2) {
+                        geode::utils::web::openLinkInBrowser(str);
+                    }
+                }
+            );
         }
 
         virtual void updateLabel() // copying types from normal label
@@ -178,7 +258,7 @@ class CCLabelBMFontExt : public CCMenu
                 {
                     s = s + " ";
 
-                    parts.push_back(LabelPart(LabelPartType::Text, s));
+                    parts.push_back(LabelPart(isLevel(s) ? LabelPartType::Level : (isUrl(s) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text)), s));
 
                     inEmoji = false;
 
@@ -207,7 +287,7 @@ class CCLabelBMFontExt : public CCMenu
                         parts.push_back(part);
                     }
                     else
-                        parts.push_back(LabelPart(inEmoji ? LabelPartType::Emoji : LabelPartType::Text, s));
+                        parts.push_back(LabelPart(inEmoji ? LabelPartType::Emoji : (isLevel(s) ? LabelPartType::Level : (isUrl(s) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text))), s));
 
                     inEmoji = !inEmoji;
 
@@ -224,7 +304,7 @@ class CCLabelBMFontExt : public CCMenu
                 if (inEmoji)
                     s = ":" + s;
 
-                parts.push_back(LabelPart(LabelPartType::Text, s));
+                parts.push_back(LabelPart(isLevel(s) ? LabelPartType::Level : (isUrl(s) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text)), s));
             }
 
             float pos = 0;
@@ -298,6 +378,158 @@ class CCLabelBMFontExt : public CCMenu
 
                             emojiBtn->setPosition(ccp(pos + 2, -20 * yPos) + (emojiBtn->getScaledContentSize() / 2));
                             pos += emojiBtn->getScaledContentSize().width + 2 - 0.75f;
+                        }
+                    }
+                }
+                else if (seg.type == LabelPartType::Username)
+                {
+                    auto n = CCNode::create();
+                    
+                    auto lbl = CCLabelBMFont::create(seg.extra.c_str(), font.c_str(), 99999);
+                    lbl->setColor(ccc3(127, 244, 244));
+                    lbl->setAnchorPoint(ccp(0, 0));
+                    
+                    n->addChild(lbl);
+                    n->setContentSize(lbl->getContentSize());
+
+                    auto n2 = CCNode::create();
+                    
+                    auto lbl2 = CCLabelBMFont::create(seg.extra.c_str(), font.c_str(), 99999);
+                    lbl2->setOpacity(150);
+                    lbl2->setAnchorPoint(ccp(0, 0));
+
+                    n2->addChild(lbl2);
+                    n2->setContentSize(lbl2->getContentSize());
+
+                    auto btn = CCMenuItemSprite::create(n, n2, this, menu_selector(CCLabelBMFontExt::onUsername));
+                    btn->setID(seg.extra.substr(1));
+                    btn->setPosition(ccp(pos, -20 * yPos));
+                    btn->setAnchorPoint(ccp(0, 0));
+                    
+                    this->addChild(btn);
+                    
+                    height = std::max<float>(height, lbl->getScaledContentSize().height);
+                    pos += lbl->getScaledContentSize().width;
+                    wid = std::max<float>(wid, pos);
+
+                    if (maxX != 0)
+                    {
+                        if (pos > maxX)
+                        {
+                            wid = std::max<float>(wid, pos);
+                            pos = 0;
+                            yPos++;
+
+                            lbl->setPosition(ccp(pos, -20 * yPos));
+                            pos += lbl->getScaledContentSize().width + 2 - 0.75f;
+                        }
+                    }
+                }
+                else if (seg.type == LabelPartType::Url)
+                {
+                    auto n = CCNode::create();
+                    
+                    auto lbl = CCLabelBMFont::create(seg.extra.c_str(), font.c_str(), 99999);
+                    lbl->setColor(ccc3(127, 244, 244));
+                    lbl->setAnchorPoint(ccp(0, 0));
+
+                    auto line = CCLayerColor::create();
+                    line->setColor(lbl->getColor());
+                    line->setOpacity(255);
+                    line->ignoreAnchorPointForPosition(false);
+                    line->setAnchorPoint(ccp(0, 0));
+                    line->setPosition(ccp(0, -1));
+                    line->setContentWidth(lbl->getContentWidth());
+                    line->setContentHeight(1);
+
+                    n->addChild(line);
+                    n->addChild(lbl);
+                    n->setContentSize(lbl->getContentSize());
+
+                    auto n2 = CCNode::create();
+                    
+                    auto lbl2 = CCLabelBMFont::create(seg.extra.c_str(), font.c_str(), 99999);
+                    lbl2->setOpacity(150);
+                    lbl2->setAnchorPoint(ccp(0, 0));
+
+                    auto line2 = CCLayerColor::create();
+                    line2->setColor(lbl2->getColor());
+                    line2->setOpacity(150);
+                    line2->ignoreAnchorPointForPosition(false);
+                    line2->setAnchorPoint(ccp(0, 0));
+                    line2->setPosition(ccp(0, -1));
+                    line2->setContentWidth(lbl->getContentWidth());
+                    line2->setContentHeight(1);
+
+                    n2->addChild(line2);
+                    n2->addChild(lbl2);
+                    n2->setContentSize(lbl2->getContentSize());
+
+                    auto btn = CCMenuItemSprite::create(n, n2, this, menu_selector(CCLabelBMFontExt::onUrl));
+                    btn->setID(seg.extra);
+                    btn->setPosition(ccp(pos, -20 * yPos));
+                    btn->setAnchorPoint(ccp(0, 0));
+                    
+                    this->addChild(btn);
+                    
+                    height = std::max<float>(height, lbl->getScaledContentSize().height);
+                    pos += lbl->getScaledContentSize().width;
+                    wid = std::max<float>(wid, pos);
+
+                    if (maxX != 0)
+                    {
+                        if (pos > maxX)
+                        {
+                            wid = std::max<float>(wid, pos);
+                            pos = 0;
+                            yPos++;
+
+                            lbl->setPosition(ccp(pos, -20 * yPos));
+                            pos += lbl->getScaledContentSize().width + 2 - 0.75f;
+                        }
+                    }
+                }
+                else if (seg.type == LabelPartType::Level)
+                {
+                    auto n = CCNode::create();
+                    
+                    auto lbl = CCLabelBMFont::create(seg.extra.c_str(), font.c_str(), 99999);
+                    lbl->setColor(ccc3(127, 244, 244));
+                    lbl->setAnchorPoint(ccp(0, 0));
+                    
+                    n->addChild(lbl);
+                    n->setContentSize(lbl->getContentSize());
+
+                    auto n2 = CCNode::create();
+                    
+                    auto lbl2 = CCLabelBMFont::create(seg.extra.c_str(), font.c_str(), 99999);
+                    lbl2->setOpacity(150);
+                    lbl2->setAnchorPoint(ccp(0, 0));
+
+                    n2->addChild(lbl2);
+                    n2->setContentSize(lbl2->getContentSize());
+
+                    auto btn = CCMenuItemSprite::create(n, n2, this, menu_selector(CCLabelBMFontExt::onLevel));
+                    btn->setID(seg.extra);
+                    btn->setPosition(ccp(pos, -20 * yPos));
+                    btn->setAnchorPoint(ccp(0, 0));
+                    
+                    this->addChild(btn);
+                    
+                    height = std::max<float>(height, lbl->getScaledContentSize().height);
+                    pos += lbl->getScaledContentSize().width;
+                    wid = std::max<float>(wid, pos);
+
+                    if (maxX != 0)
+                    {
+                        if (pos > maxX)
+                        {
+                            wid = std::max<float>(wid, pos);
+                            pos = 0;
+                            yPos++;
+
+                            lbl->setPosition(ccp(pos, -20 * yPos));
+                            pos += lbl->getScaledContentSize().width + 2 - 0.75f;
                         }
                     }
                 }

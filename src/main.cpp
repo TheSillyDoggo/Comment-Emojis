@@ -11,15 +11,27 @@ using namespace geode::prelude;
 
 class $modify (CommentCell)
 {
+	CCLabelBMFontExt* label = nullptr;
+
+	void onUnhide(cocos2d::CCObject* sender)
+	{
+		
+	}
+
 	void loadFromComment(GJComment* p0)
 	{
 		CommentCell::loadFromComment(p0);
-
+		
 		if (auto txt = as<CCLayerColor*>(this->getChildren()->objectAtIndex(1))->getChildByID("comment-text-label"))
 		{
 			txt->setVisible(false);
 
 			auto lbl2 = CCLabelBMFontExt::create(p0->m_commentString.c_str(), "chatFont.fnt");
+
+			if (p0->m_isSpam)
+				lbl2->setString("Comment flagged as spam");
+
+			m_fields->label = lbl2;
 
 			if (lbl2)
 			{
@@ -38,6 +50,11 @@ class $modify (CommentCell)
 			txt->setVisible(false);
 
 			auto lbl2 = CCLabelBMFontExt::create(p0->m_commentString.c_str(), "chatFont.fnt");
+
+			if (p0->m_isSpam)
+				lbl2->setString("Comment flagged as spam");
+
+			m_fields->label = lbl2;
 
 			if (lbl2)
 			{
