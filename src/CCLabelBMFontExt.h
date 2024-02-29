@@ -239,7 +239,8 @@ class CCLabelBMFontExt : public CCMenu
                 "Cancel", "Yes",
                 [str](FLAlertLayer*, bool btn2) {
                     if (btn2) {
-                        geode::utils::web::openLinkInBrowser(str);
+                        CCApplication::get()->openURL(str.c_str());
+                        //geode::utils::web::openLinkInBrowser(str);
                     }
                 }
             );
