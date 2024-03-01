@@ -15,7 +15,11 @@ class $modify (CommentCell)
 
 	void onUnhide(cocos2d::CCObject* sender)
 	{
-		
+		#ifdef GEODE_IS_ANDROID
+		CommentCell::onUnhide(sender);
+		#endif
+
+		//m_fields->label->setString()
 	}
 
 	void loadFromComment(GJComment* p0)
