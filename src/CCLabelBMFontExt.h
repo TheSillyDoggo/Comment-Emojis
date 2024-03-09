@@ -172,8 +172,7 @@ class CCLabelBMFontExt : public CCMenu
         float maxX;
 
         bool isUrl(std::string str) {
-            //std::regex pattern("^(https?://)?[\\w\\-]+(\\.[\\w\\-]+)+[/\\w\\-\\.,@?^=%&:/~\\+#]*");
-            std::regex pattern("^((http[s]?|ftp):\\/)?\\/?([^:\\/\\s]+)((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(.*)?(#[\\w\\-]+)?$");
+            std::regex pattern("^(https?:\\/\\/)?((?:[^\\/:@\\s]+\\.)+)((?:[a-z]{2,})|(?:xn--[a-z0-9\\-]{2,}))(?:\\/\\S*)?$");
     
             return std::regex_match(str, pattern);
         }
