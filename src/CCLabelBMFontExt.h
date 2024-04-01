@@ -162,6 +162,11 @@ struct LabelPart
     }
 };
 
+std::string trimEndSpaces(const std::string& str) {
+    size_t endpos = str.find_last_not_of(" \t");
+    return (endpos != std::string::npos) ? str.substr(0, endpos + 1) : "";
+}
+
 class CCLabelBMFontExt : public CCMenu
 {
     public:
@@ -169,8 +174,21 @@ class CCLabelBMFontExt : public CCMenu
 
         std::string font = "";
         std::string text = "";
+        ccColor3B colour = ccc3(255, 255, 255);
 
         float maxX;
+
+        virtual void setColor(const ccColor3B& color)
+        {
+            colour = color;
+
+            updateLabel();
+        }
+
+        virtual const ccColor3B& getColor(void)
+        {
+            return colour;
+        }
 
         bool isUrl(std::string str) {
             std::regex pattern("^(https?:\\/\\/)?((?:[^\\/:@\\s]+\\.)+)((?:[a-z]{2,})|(?:xn--[a-z0-9\\-]{2,}))(?:\\/\\S*)?$");
@@ -260,7 +278,7 @@ class CCLabelBMFontExt : public CCMenu
                 {
                     s = s + " ";
 
-                    parts.push_back(LabelPart(isLevel(s) ? LabelPartType::Level : (isUrl(s) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text)), s));
+                    parts.push_back(LabelPart(isLevel(trimEndSpaces(s)) ? LabelPartType::Level : (isUrl(trimEndSpaces(s)) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text)), s));
 
                     inEmoji = false;
 
@@ -289,7 +307,7 @@ class CCLabelBMFontExt : public CCMenu
                         parts.push_back(part);
                     }
                     else
-                        parts.push_back(LabelPart(inEmoji ? LabelPartType::Emoji : (isLevel(s) ? LabelPartType::Level : (isUrl(s) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text))), s));
+                        parts.push_back(LabelPart(inEmoji ? LabelPartType::Emoji : (isLevel(trimEndSpaces(s)) ? LabelPartType::Level : (isUrl(trimEndSpaces(s)) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text))), s));
 
                     inEmoji = !inEmoji;
 
@@ -306,7 +324,7 @@ class CCLabelBMFontExt : public CCMenu
                 if (inEmoji)
                     s = ":" + s;
 
-                parts.push_back(LabelPart(isLevel(s) ? LabelPartType::Level : (isUrl(s) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text)), s));
+                parts.push_back(LabelPart(isLevel(trimEndSpaces(s)) ? LabelPartType::Level : (isUrl(trimEndSpaces(s)) ? LabelPartType::Url : (s.starts_with("@") ? LabelPartType::Username : LabelPartType::Text)), s));
             }
 
             float pos = 0;
@@ -328,6 +346,7 @@ class CCLabelBMFontExt : public CCMenu
                     auto lbl = CCLabelBMFont::create(seg.extra.c_str(), font.c_str(), 99999);
                     lbl->setAnchorPoint(ccp(0, 0));
                     lbl->setPosition(ccp(pos, -20 * yPos));
+                    lbl->setColor(colour);
                     this->addChild(lbl);
                     
                     height = std::max<float>(height, lbl->getScaledContentSize().height);

@@ -3,6 +3,7 @@
 #include <Geode/modify/TextArea.hpp>
 #include <Geode/modify/CommentCell.hpp>
 #include <Geode/modify/ShareCommentLayer.hpp>
+#include <Geode/modify/GJMessagePopup.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 
 using namespace geode::prelude;
@@ -42,6 +43,7 @@ class $modify (CommentCell)
 				lbl2->setPosition(txt->getPosition());
 				lbl2->setAnchorPoint(txt->getAnchorPoint());
 				lbl2->limitLabelWidth(270, 0.7f, 0);
+				lbl2->setColor(p0->m_color);
 
 				as<CCLayerColor*>(this->getChildren()->objectAtIndex(1))->addChild(lbl2);
 			}
@@ -54,6 +56,7 @@ class $modify (CommentCell)
 			txt->setVisible(false);
 
 			auto lbl2 = CCLabelBMFontExt::create(p0->m_commentString.c_str(), "chatFont.fnt");
+			lbl2->setColor(p0->m_color);
 
 			if (p0->m_isSpam)
 				lbl2->setString("Comment flagged as spam");
@@ -224,12 +227,15 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 		return true;
 	}
 };
-
-/*class $modify (TextArea)
+/*
+class $modify (TextArea)
 {
 	void setString(gd::string p0)
 	{
 		TextArea::setString(p0);
+
+		if (!getChildOfType<GJMessagePopup>(CCScene::get(), 0))
+			return;
 
 		if (auto ml = as<MultilineBitmapFont*>(this->getChildren()->objectAtIndex(0)))
 		{
@@ -245,89 +251,11 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
 					lbl2->setAnchorPoint(obj->getAnchorPoint());
 					lbl2->setScale(obj->getScale());
 
+					lbl2->setTouchPriority(-508);
+
 					ml->addChild(lbl2);
 				}
 			}
 		}
 	}
 };*/
-
-/*
-CCSprite* img = nullptr;
-
-class $modify(CCLabelBMFont) {
-
-	virtual void draw()
-	{
-		CCNode::draw();
-
-		//if (typeinfo_cast<CCLabelBMFont*>(this))
-		if (true)
-		{
-			log::info("draw");
-
-			if (img)
-				img->draw();
-		}
-	}
-
-	virtual void updateLabel()
-	{
-		CCLabelBMFont::updateLabel();
-
-		bool inEmoji = false;
-		std::stringstream ss;
-		int emojiPos;
-
-		for (size_t i = 0; i < this->getChildrenCount(); i++)
-		{
-			auto child = reinterpret_cast<CCSprite*>(this->getChildren()->objectAtIndex(i));
-			auto chara = this->getString()[i];
-
-			if (chara == " "[0])
-				inEmoji = false;
-
-			if (chara == ":"[0])
-			{
-				if (inEmoji)
-				{
-					auto emojiName = ss.str();
-					auto old = reinterpret_cast<CCSprite*>(this->getChildren()->objectAtIndex(emojiPos));
-					
-					//auto img = CCSprite::createWithSpriteFrameName("diamond_small01_001.png");
-					img = CCSprite::createWithSpriteFrameName("GJ_noteIcon_001.png");
-					img->setPosition(old->getPosition());
-					img->setTag(i);
-					//CCDirector::get()->setNotificationNode(img);
-					//img->addChild(CCSprite::createWithSpriteFrameName("label_power_001.png")); // wtf why isn't this working
-					//auto img = CCSprite::create("dialogIcon_013.png");
-					//img->setPosition(pos);
-					//this->getParent()->addChild(img);
-					//old->addChild(img);
-
-					//auto layer = CCLayer::create();
-					//layer->addChild(img);
-					//CCScene::get()->addChild(layer);
-
-					//old->setOpacity(0);
-
-				}
-				else
-				{
-					emojiPos = i;
-					ss.clear();
-				}
-
-				inEmoji = !inEmoji;
-			}
-			else
-			{
-				if (inEmoji)
-				{
-					ss << chara;
-				}
-			}
-		}
-	}
-};
-*/
