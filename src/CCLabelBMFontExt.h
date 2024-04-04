@@ -67,7 +67,7 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("despair2"),
     _Emoji("ned"),
     std::pair("pusab?", "pusab.png"_spr),
-    std::pair("geode", "geode.png"),
+    _Emoji("geode"),
     _Emoji("raah"),
     _Emoji("robsmile"),
     _Emoji("sip"),
