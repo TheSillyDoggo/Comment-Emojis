@@ -4,7 +4,8 @@
 	"gd": {
 		"win": "2.204",
         "mac": "2.200",
-		"android": "*"
+		"android": "*",
+		"ios": "2.205"
 	},
 	"id": "thesillydoggo.comment_emojis",
 	"name": "Emojis in Comments",
