@@ -8,6 +8,12 @@ project(CommentEmojis VERSION 1.0.0)
 
 add_library(${PROJECT_NAME} SHARED
     src/main.cpp
+    src/EmojiLoader.cpp
+    src/CCLabelBMFontExt.cpp
+    src/TextAreaExt.cpp
+    src/Hooks/GlobedChatCell.cpp
+    src/Hooks/GlobedChatListPopup.cpp
+    src/Hooks/CommentCell.cpp
     # Add your cpp files here
 )
 
