@@ -11,9 +11,12 @@ add_library(${PROJECT_NAME} SHARED
     src/EmojiLoader.cpp
     src/CCLabelBMFontExt.cpp
     src/TextAreaExt.cpp
+    src/CCProxyNode.cpp
+    src/EmojiPickPopup.cpp
     src/Hooks/GlobedChatCell.cpp
     src/Hooks/GlobedChatListPopup.cpp
     src/Hooks/CommentCell.cpp
+    src/Hooks/ShareCommentLayer.cpp
     # Add your cpp files here
 )
 

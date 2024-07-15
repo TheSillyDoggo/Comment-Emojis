@@ -30,9 +30,33 @@ TextAreaExt* TextAreaExt::create(const char* string, const char* font)
 
 std::vector<CCLabelBMFontExt*> TextAreaExt::splitStringIntoLabels(int lineCount)
 {
-    std::vector<CCLabelBMFontExt*> parts;
+    std::vector<CCLabelBMFontExt*> lbls;
+    std::vector<LabelPart> ps;
 
-    return parts;
+    auto lbl = CCLabelBMFontExt::create(string, font);
+    float x = 0;
+
+    for (auto part : lbl->parts)
+    {
+        x += part.node->getScaledContentWidth();
+        ps.push_back(part);
+
+        if (x > this->getContentWidth())
+        {
+            x = 0;
+
+            auto str = LabelPart::stringFromVector(ps);
+
+            log::info("str: {}", str.c_str());
+
+            auto l = CCLabelBMFontExt::create(fmt::format("{}", str).c_str(), font);
+            lbls.push_back(l);
+
+            ps.clear();
+        }
+    }
+
+    return lbls;
 }
 
 void TextAreaExt::updateLabel()

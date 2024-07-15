@@ -22,10 +22,12 @@ enum LabelPartType {
 struct LabelPart {
     LabelPartType type = LabelPartType::Text;
     std::string extra;
+    CCNode* node;
 
     LabelPart(LabelPartType type, std::string ext);
 
     const char* getFileNameForEmoji();
+    static std::string stringFromVector(std::vector<LabelPart> parts);
 
     bool isValidEmoji();
 };
@@ -38,6 +40,7 @@ class CCLabelBMFontExt : public CCLabelBMFont {
         ccColor3B colour;
         GLubyte opacity = 255;
         CCNode* objNode;
+        std::vector<LabelPart> parts;
 
         virtual void setString(const char *newString);
         virtual void setString(const char *newString, bool needUpdateLabel);

@@ -126,6 +126,26 @@ const char* LabelPart::getFileNameForEmoji()
     return "";
 }
 
+std::string LabelPart::stringFromVector(std::vector<LabelPart> parts)
+{
+    std::string ss = "";
+
+    for (auto part : parts)
+    {
+        if (part.type == LabelPartType::Text)
+            ss += std::string(part.extra);
+
+        if (part.type == LabelPartType::Emoji)
+        {
+            ss += ":";
+            ss += std::string(part.extra);
+            ss += ":";
+        }
+    }
+
+    return ss;
+}
+
 bool LabelPart::isValidEmoji()
 {
     return CCSpriteFrameCache::get()->m_pSpriteFrames->objectForKey(getFileNameForEmoji());
@@ -314,10 +334,11 @@ void CCLabelBMFontExt::updateLabel()
 
     objNode->removeAllChildrenWithCleanup(true);
 
+    parts.clear();
+
     CCSize size = CCSizeMake(0, 0);
     bool inEmoji = false;
     std::string cur = "";
-    std::vector<LabelPart> parts = {};
     float h = getOriginalLabel("l", font)->getContentHeight();
     float x = 2;
 
@@ -388,6 +409,8 @@ void CCLabelBMFontExt::updateLabel()
         parts.push_back(LabelPart(LabelPartType::Text, cur));
     }
 
+    int i = 0;
+
     for (auto part : parts)
     {
         if (part.type == LabelPartType::Text)
@@ -403,6 +426,7 @@ void CCLabelBMFontExt::updateLabel()
             lbl->setPosition(ccp(size.width, 0));
             objNode->addChild(lbl);
 
+            parts[i].node = lbl;
             size.width += lbl->getContentWidth();
             size.height = std::max<float>(size.height, lbl->getContentHeight());
         }
@@ -419,9 +443,12 @@ void CCLabelBMFontExt::updateLabel()
             spr->setOpacity(opacity);
             objNode->addChild(spr);
 
+            parts[i].node = spr;
             size.width += spr->getScaledContentSize().width + x;
             size.height = std::max<float>(size.height, spr->getScaledContentSize().height);
         }
+
+        i++;
     }
 
     this->setContentSize(size);

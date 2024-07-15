@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/FLAlertLayer.hpp>
+#include "../EmojiPickPopup.hpp"
 
 using namespace geode::prelude;
 
@@ -8,7 +9,7 @@ class GlobedChatListPopup : public geode::Popup<> {};
 class $modify (GlobedChatListPopupExt, FLAlertLayer)
 {
     struct Fields {
-        InputNode* input;
+        TextInput* input;
     };
 
     virtual void show()
@@ -20,7 +21,7 @@ class $modify (GlobedChatListPopupExt, FLAlertLayer)
             if (auto menu = getChildOfType<CCMenu>(popup->m_mainLayer, -1))
             {
                 as<AxisLayout*>(menu->getLayout())->setAutoScale(false);
-                m_fields->input = getChildOfType<InputNode>(menu, 0);
+                m_fields->input = getChildOfType<TextInput>(menu, 0);
 
                 auto spr = CCSprite::createWithSpriteFrameName("emoji-icon-thicker.png"_spr);
                 spr->setOpacity(100);
@@ -37,6 +38,6 @@ class $modify (GlobedChatListPopupExt, FLAlertLayer)
 
     void onPickEmojis(CCObject* sender)
     {
-
+        EmojiPickPopup::create(m_fields->input->getInputNode(), m_fields->input)->show();
     }
 };
