@@ -85,7 +85,7 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     std::pair("eldermod", "modBadge_02_001.png"),
     std::pair("leaderboardmod", "modBadge_03_001.png"),
 
-    std::pair("$$newline$$", "$$newline$$"),
+    std::pair("$$newline$$Discord", "$$newline$$"),
 
     //discord
     _Emoji("100"),
@@ -113,7 +113,7 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("eggplant"),
     _Emoji("clown"),
 
-    std::pair("$$newline$$", "$$newline$$"),
+    std::pair("$$newline$$Other", "$$newline$$"),
 
     //other
     _Emoji("amogus"),
@@ -150,9 +150,26 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("gd"),
     std::pair("geode", "geode-icon.png"_spr),
     _Emoji("boar"),
+    _Emoji("mewhen"),
+
+    // players
+    std::pair("$$newline$$Players", "$$newline$$"),
+
+    _Emoji("default"),
+    _Emoji("sdslayer"),
+    _Emoji("evw"),
+    _Emoji("tride"),
+    _Emoji("colon"),
+    _Emoji("robtop"),
+    _Emoji("wulzy"),
+    _Emoji("juniper"),
+    _Emoji("riot"),
+    _Emoji("cyclic"),
+    _Emoji("thesillydoggo"),
+    _Emoji("uproxide"),
 
     // cat collection, thank you c# discord. i wuv you <3
-    std::pair("$$newline$$", "$$newline$$"),
+    std::pair("$$newline$$Cat Collection", "$$newline$$"),
 
     _Emoji("catbless"),
     _Emoji("catcash"),
@@ -163,7 +180,7 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("catderp"),
     _Emoji("catfacepalm"),
     _Emoji("catfine"),
-    _Emoji("catgasm"),
+    // _Emoji("catgasm"),
     _Emoji("catgasp"),
     _Emoji("catgift"),
     _Emoji("catgrump"),

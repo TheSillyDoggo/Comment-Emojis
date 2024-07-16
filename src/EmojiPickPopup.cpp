@@ -106,16 +106,23 @@ void EmojiPickPopup::populateScroll(CCContentLayer* content)
         {
             //newline
 
+            auto text = CCLabelBMFont::create(emoji.first.substr(11).c_str(), "chatFont.fnt");
+            text->setColor(ccc3(0, 0, 0));
+            text->setOpacity(50);
+            text->setAnchorPoint(ccp(0, 0.5f));
+            text->setPosition(ccp(10, (y + 1.25f) * spacer));
+
             auto line = CCLayerColor::create();
             line->setOpacity(50);
             line->ignoreAnchorPointForPosition(false);
-            line->setContentSize(ccp(content->getContentWidth() - 25, 2));
-            line->setPosition(ccp(content->getContentWidth() / 2, (y + 1.25f) * spacer));
+            line->setContentSize(ccp((content->getContentWidth() - 25) - text->getScaledContentWidth() - 5, 2));
+            line->setPosition(ccp(content->getContentWidth() / 2 + text->getScaledContentWidth() / 2 + 5 / 2, (y + 1.25f) * spacer));
 
             x = -1;
             y += 1.5f;
 
             content->addChild(line);
+            content->addChild(text);
         }
     }
 
