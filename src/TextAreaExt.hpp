@@ -15,6 +15,7 @@ class TextAreaExt : public CCLabelBMFont
         ccColor3B colour = ccc3(255, 255, 255);
         GLubyte opacity = 255;
         CCNode* objNode;
+        float lineHeight;
 
         bool init(const char* string, const char* font);
         static TextAreaExt* create(const char* string, const char* font);
@@ -22,6 +23,9 @@ class TextAreaExt : public CCLabelBMFont
         std::vector<CCLabelBMFontExt*> splitStringIntoLabels(int lineCount);
 
         ~TextAreaExt();
+
+        virtual void setLineHeight(float lineHeight);
+        virtual float getLineHeight();
 
         virtual void setString(const char *newString);
         virtual void setString(const char *newString, bool needUpdateLabel);

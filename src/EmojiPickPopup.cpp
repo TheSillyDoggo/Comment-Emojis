@@ -45,11 +45,15 @@ bool EmojiPickPopup::setup(CCTextInputNode* input, CCNode* node)
     bg->setPosition(CCDirector::get()->getWinSize() / 2);
     bg->setContentSize(m_bgSprite->getContentSize());
 
-    auto scroll = geode::ScrollLayer::create(ccp(240, 205));
-    scroll->setPosition(CCDirector::get()->getWinSize() / 2 - scroll->getContentSize() / 2);
+    auto scroll = geode::ScrollLayer::create(ccp(330, 180));
+    scroll->setPosition(CCDirector::get()->getWinSize() / 2 - scroll->getContentSize() / 2 + ccp(-6, 0));
+
+    populateScroll(scroll->m_contentLayer);
+
+    scroll->moveToTop();
 
     auto scrollbar = geode::Scrollbar::create(scroll);
-    scrollbar->setPosition(CCDirector::get()->getWinSize() / 2 + ccp(127.5f, 0));
+    scrollbar->setPosition(CCDirector::get()->getWinSize() / 2 + ccp(127.5f + 40, 0));
 
     m_mainLayer->addChild(scroll);
     m_mainLayer->addChild(scrollbar);
@@ -58,6 +62,74 @@ bool EmojiPickPopup::setup(CCTextInputNode* input, CCNode* node)
     this->addChild(inputParent, 69);
     this->addChild(hideNode);
     return true;
+}
+
+void EmojiPickPopup::populateScroll(CCContentLayer* content)
+{
+    float height = 17.5f;
+    float spacer = content->getContentWidth() / (10);
+    int x = -1;
+    float y = 0;
+
+    auto emojis = EmojiNode::getEmojis();
+
+    for (auto emoji : emojis)
+    {
+        if (!emoji.first.starts_with("$$newline$$"))
+        {
+            auto menu = CCMenu::create();
+
+            auto spr = EmojiNode::createWithKey(emoji.first);
+
+            if (!spr)
+                return;
+
+            x++;
+
+            if ((x - 1) * spacer + spacer * 1.5f > content->getContentWidth())
+            {
+                y++;
+                x = 0;
+            }
+
+            menu->setPosition(ccp(x * spacer, y * spacer) + ccp(spacer, spacer) / 2);
+            spr->setAnchorPoint(ccp(0.5f, 0.5f));
+            spr->setScale(height / spr->getContentHeight());
+
+            auto btn = CCMenuItemSpriteExtra::create(spr, this, menu_selector(EmojiPickPopup::onPickEmoji));
+            btn->setID(emoji.first);
+
+            menu->addChild(btn);
+            content->addChild(menu);
+        }
+        else
+        {
+            //newline
+
+            auto line = CCLayerColor::create();
+            line->setOpacity(50);
+            line->ignoreAnchorPointForPosition(false);
+            line->setContentSize(ccp(content->getContentWidth() - 25, 2));
+            line->setPosition(ccp(content->getContentWidth() / 2, (y + 1.25f) * spacer));
+
+            x = -1;
+            y += 1.5f;
+
+            content->addChild(line);
+        }
+    }
+
+    content->setContentHeight(spacer * (y + 1));
+
+    for (auto child : CCArrayExt<EmojiNode*>(content->getChildren()))
+    {
+        child->setPositionY(content->getContentHeight() - child->getPositionY());
+    }
+}
+
+void EmojiPickPopup::onPickEmoji(CCObject* sender)
+{
+    input->setString(input->getString() + ":" + as<CCNode*>(sender)->getID() + ":");
 }
 
 EmojiPickPopup* EmojiPickPopup::create(CCTextInputNode* input, CCNode* node)

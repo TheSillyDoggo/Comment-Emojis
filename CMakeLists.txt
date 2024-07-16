@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME} SHARED
     src/Hooks/GlobedChatListPopup.cpp
     src/Hooks/CommentCell.cpp
     src/Hooks/ShareCommentLayer.cpp
+    src/EmojiNode.cpp
     # Add your cpp files here
 )
 

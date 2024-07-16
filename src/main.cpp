@@ -13,20 +13,4 @@ using namespace geode::prelude;
 #include "CCLabelBMFontExt.hpp"
 #include "TextAreaExt.hpp"
 
-class $modify(MenuLayer)
-{
-    bool init()
-    {
-        MenuLayer::init();
-
-        auto area = TextAreaExt::create("femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy femboy ", "chatFont.fnt");
-        area->setPosition(CCDirector::get()->getWinSize() / 2);
-        area->setContentSize(ccp(200, 60));
-        area->setAnchorPoint(ccp(0.5f, 0.5f));
-        area->setAlignment(CCTextAlignment::kCCTextAlignmentCenter);
-
-        this->addChild(area, 420);
-
-        return true;
-    }
-};
+/**/

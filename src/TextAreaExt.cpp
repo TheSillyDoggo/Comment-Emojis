@@ -36,27 +36,51 @@ std::vector<CCLabelBMFontExt*> TextAreaExt::splitStringIntoLabels(int lineCount)
     auto lbl = CCLabelBMFontExt::create(string, font);
     float x = 0;
 
-    for (auto part : lbl->parts)
+    if (lineCount == 1)
     {
-        x += part.node->getScaledContentWidth();
-        ps.push_back(part);
-
-        if (x > this->getContentWidth())
+        lbls.push_back(lbl);
+    }
+    else
+    {
+        for (auto part : lbl->parts)
         {
-            x = 0;
+            x += part.node->getScaledContentWidth();
+            ps.push_back(part);
 
+            if (x + part.node->getScaledContentWidth() > this->getContentWidth())
+            {
+                x = 0;
+
+                auto str = LabelPart::stringFromVector(ps);
+
+                auto l = CCLabelBMFontExt::create(str.c_str(), font);
+                lbls.push_back(l);
+
+                ps.clear();
+            }
+        }
+
+        if (!ps.empty())
+        {
             auto str = LabelPart::stringFromVector(ps);
 
-            log::info("str: {}", str.c_str());
-
-            auto l = CCLabelBMFontExt::create(fmt::format("{}", str).c_str(), font);
+            auto l = CCLabelBMFontExt::create(str.c_str(), font);
             lbls.push_back(l);
-
-            ps.clear();
         }
     }
 
     return lbls;
+}
+
+void TextAreaExt::setLineHeight(float lineHeight)
+{
+    this->lineHeight = lineHeight;
+    updateLabel();
+}
+
+float TextAreaExt::getLineHeight()
+{
+    return lineHeight;
 }
 
 void TextAreaExt::updateLabel()
@@ -70,51 +94,60 @@ void TextAreaExt::updateLabel()
     lbl->setColor(colour);
     lbl->setOpacity(opacity);
 
-    auto lineCount = std::floor<int>((lbl->getScaledContentWidth() / this->getContentWidth()) + 1);
+    auto lineCount = std::floor<int>((lbl->getScaledContentWidth() / this->getContentWidth()) + 1) + 1;
+    
+    if (lineCount < 1)
+        lineCount = 1;
 
-    if (lineCount == 1)
+    auto parts = splitStringIntoLabels(lineCount);
+
+    float y = 0;
+    int count = parts.size();
+
+    for (auto part : parts)
     {
+        part->setColor(colour);
+        part->setOpacity(opacity);
+
         switch (alignment)
         {
             case CCTextAlignment::kCCTextAlignmentLeft:
-                lbl->setAnchorPoint(ccp(0, 0));
-                lbl->setPositionX(0);
+                part->setAnchorPoint(ccp(0, 0));
+                part->setPositionX(0);
                 break;
 
             case CCTextAlignment::kCCTextAlignmentCenter:
-                lbl->setAnchorPoint(ccp(0.5f, 0));
-                lbl->setPositionX(getContentWidth() / 2);
+                part->setAnchorPoint(ccp(0.5f, 0));
+                part->setPositionX(getContentWidth() / 2);
                 break;
 
             case CCTextAlignment::kCCTextAlignmentRight:
-                lbl->setAnchorPoint(ccp(1, 0));
-                lbl->setPositionX(getContentWidth());
+                part->setAnchorPoint(ccp(1, 0));
+                part->setPositionX(getContentWidth());
                 break;
         };
 
         switch (verticalAlignment)
         {
             case CCVerticalTextAlignment::kCCVerticalTextAlignmentTop:
-                lbl->setAnchorPoint(ccp(lbl->getAnchorPoint().x, 1));
-                lbl->setPositionY(this->getContentHeight());
+                part->setAnchorPoint(ccp(part->getAnchorPoint().x, 1));
+                part->setPositionY(this->getContentHeight() - y);
+                y += lineHeight;
                 break;
 
             case CCVerticalTextAlignment::kCCVerticalTextAlignmentCenter:
-                lbl->setAnchorPoint(ccp(lbl->getAnchorPoint().x, 0.5f));
-                lbl->setPositionY(this->getContentHeight() / 2);
+                part->setAnchorPoint(ccp(part->getAnchorPoint().x, 0.5f));
+                part->setPositionY((((count * lineHeight) / 2) / 2) - y);
+                part->setPositionY(part->getPositionY() + this->getContentHeight() / 2);
+                y += lineHeight / 2;
+                break;
+
+            case CCVerticalTextAlignment::kCCVerticalTextAlignmentBottom:
+                part->setAnchorPoint(ccp(part->getAnchorPoint().x, 0));
+                part->setPositionY(y);
+                y += lineHeight;
                 break;
         };
-
-        this->addChild(lbl);
-        return;
-    }
-
-    auto parts = splitStringIntoLabels(lineCount);
-
-    for (auto part : parts)
-    {
-        part->setColor(colour);
-        part->setOpacity(opacity);
 
         this->addChild(part);
     }

@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include "CCProxyNode.hpp"
+#include "EmojiNode.hpp"
 
 using namespace geode::prelude;
 
@@ -14,8 +15,11 @@ class EmojiPickPopup : public geode::Popup<CCTextInputNode*, CCNode*>
         CCNode* hideNode;
 
         bool setup(CCTextInputNode* input, CCNode* node);
+        void populateScroll(CCContentLayer* content);
 
         static EmojiPickPopup* create(CCTextInputNode* input, CCNode* node);
+
+        void onPickEmoji(CCObject* sender);
 
         void show();
         void hide();

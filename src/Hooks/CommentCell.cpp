@@ -49,9 +49,10 @@ class $modify (CommentCell) {
                 {
                     area->setID("comment-text-area"_spr);
                     area->verticalAlignment = CCVerticalTextAlignment::kCCVerticalTextAlignmentCenter;
-                    area->setPosition(txt->getPosition() + ccp(0, -16.5f / 2));
+                    area->setPosition(txt->getPosition() + ccp(0, -16.5f / 2 - 8));
                     area->setAnchorPoint(ccp(0, 0.5f));
-                    area->setContentSize(ccp(320, 40));                    
+                    area->setContentSize(ccp(320, 40));
+                    area->setLineHeight(23 / 0.65f);
                     area->setColor(as<TextArea*>(txt)->getColor());
 
                     panel->addChild(area);

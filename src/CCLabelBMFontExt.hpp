@@ -3,6 +3,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/CCNode.hpp>
 #include <Geode/modify/CCLabelBMFont.hpp>
+#include "EmojiNode.hpp"
 
 #include <iostream>
 #include <regex>
@@ -10,6 +11,8 @@
 #include <utility>
 
 using namespace geode::prelude;
+
+//#define _Emoji(id) std::pair(id, std::string(""_spr) + id + std::string(".png"))
 
 enum LabelPartType {
     Text,
@@ -34,8 +37,8 @@ struct LabelPart {
 
 class CCLabelBMFontExt : public CCLabelBMFont {
     public:
-        const char* string = "";
-        const char* font = "";
+        std::string string = "";
+        std::string font = "";
         CCTextAlignment alignment;
         ccColor3B colour;
         GLubyte opacity = 255;
