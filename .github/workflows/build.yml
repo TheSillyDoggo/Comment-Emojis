@@ -14,7 +14,6 @@ jobs:
         config:
         - name: Windows
           os: windows-latest
-          target: Win32
         - name: Android32
           os: ubuntu-latest
           target: Android32
@@ -34,9 +33,11 @@ jobs:
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
-          # bindings: 'RayDeeUx/bindings'
+          bindings: 'TheSillyDoggo/bindings'
+          build-config: RelWithDebInfo
+          export-pdb: true
           combine: true
-          # sdk: nightly
+          sdk: 'nightly'
           target: ${{ matrix.config.target }}
       
   package:
@@ -45,7 +46,7 @@ jobs:
     needs: ['build']
 
     steps:
-      - uses: geode-sdk/build-geode-mod@combine
+      - uses: geode-sdk/build-geode-mod/combine@main
         id: build
 
       - uses: actions/upload-artifact@v3
