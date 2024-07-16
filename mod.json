@@ -28,7 +28,13 @@
 				"emojis/players/*.png"
 			],
 			"GJ_AnimatedEmojiSheet01": [
-				"emojis/animated/shiggy/*.png"
+				"emojis/animated/shiggy/*.png",
+				"emojis/animated/hype/*.png",
+				"emojis/animated/petmaurice/*.png",
+				"emojis/animated/bonk/*.png",
+				"emojis/animated/partying/*.png",
+				"emojis/animated/ned_explosion/*.png",
+				"emojis/animated/polarbear/*.png"
 			],
 			"GJ_EmojiUISheet": [
 				"resources/*.png"

@@ -67,19 +67,32 @@ bool EmojiPickPopup::setup(CCTextInputNode* input, CCNode* node)
 void EmojiPickPopup::populateScroll(CCContentLayer* content)
 {
     float height = 17.5f;
-    float spacer = content->getContentWidth() / (10);
+    float spacer = content->getContentWidth() / 11;
     int x = -1;
     float y = 0;
 
-    auto emojis = EmojiNode::getEmojis();
+    auto aemojis = EmojiNode::getEmojis();
+    auto bemojis = EmojiNode::getAnimatedEmojis();
+
+    std::vector<std::string> emojis;
+
+    for (auto em : aemojis)
+    {
+        emojis.push_back(em.first);
+    }
+
+    for (auto bm : bemojis)
+    {
+        emojis.push_back(bm.first);
+    }
 
     for (auto emoji : emojis)
     {
-        if (!emoji.first.starts_with("$$newline$$"))
+        if (!emoji.starts_with("$$newline$$"))
         {
             auto menu = CCMenu::create();
 
-            auto spr = EmojiNode::createWithKey(emoji.first);
+            auto spr = EmojiNode::createWithKey(emoji);
 
             if (!spr)
                 return;
@@ -97,7 +110,7 @@ void EmojiPickPopup::populateScroll(CCContentLayer* content)
             spr->setScale(height / spr->getContentHeight());
 
             auto btn = CCMenuItemSpriteExtra::create(spr, this, menu_selector(EmojiPickPopup::onPickEmoji));
-            btn->setID(emoji.first);
+            btn->setID(emoji);
 
             menu->addChild(btn);
             content->addChild(menu);
@@ -106,7 +119,7 @@ void EmojiPickPopup::populateScroll(CCContentLayer* content)
         {
             //newline
 
-            auto text = CCLabelBMFont::create(emoji.first.substr(11).c_str(), "chatFont.fnt");
+            auto text = CCLabelBMFont::create(emoji.substr(11).c_str(), "chatFont.fnt");
             text->setColor(ccc3(0, 0, 0));
             text->setOpacity(50);
             text->setAnchorPoint(ccp(0, 0.5f));

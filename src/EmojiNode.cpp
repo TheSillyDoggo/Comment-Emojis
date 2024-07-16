@@ -298,7 +298,14 @@ std::vector<std::pair<std::string, std::string>> emojis = {
 };
 
 std::vector<std::pair<std::string, float>> animated = {
+    std::pair("$$newline$$Animated", 42069),
     std::pair("shiggy", 0.02f),
+    std::pair("hype", 0.07f),
+    std::pair("petmaurice", 0.05f),
+    std::pair("bonk", 0.06f),
+    std::pair("partying", 0.04f),
+    std::pair("ned_explosion", 0.02f),
+    std::pair("polarbear", 0.03f),
 };
 
 std::vector<std::pair<std::string, std::string>> EmojiNode::getEmojis()
