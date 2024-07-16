@@ -4,7 +4,7 @@
 
 using namespace geode::prelude;
 
-class GlobedChatCell { };
+class GlobedChatCell : public CCLayerColor { };
 
 class $modify (CCLayerColor)
 {
