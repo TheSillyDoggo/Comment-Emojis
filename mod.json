@@ -27,6 +27,9 @@
 			"GJ_EmojiSheet03": [
 				"emojis/players/*.png"
 			],
+			"GJ_AnimatedEmojiSheet01": [
+				"emojis/animated/shiggy/*.png"
+			],
 			"GJ_EmojiUISheet": [
 				"resources/*.png"
 			]

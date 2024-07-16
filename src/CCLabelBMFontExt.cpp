@@ -35,6 +35,12 @@ std::string LabelPart::stringFromVector(std::vector<LabelPart> parts)
 
 bool LabelPart::isValidEmoji()
 {
+    for (auto emoji : EmojiNode::getAnimatedEmojis())
+    {
+        if (emoji.first == extra)
+            return true;
+    }
+
     return CCSpriteFrameCache::get()->m_pSpriteFrames->objectForKey(getFileNameForEmoji());
 }
 
@@ -308,7 +314,7 @@ void CCLabelBMFontExt::updateLabel()
             lbl->setOpacity(opacity);
 
             if (!lbl)
-                return;
+                continue;
 
             lbl->setPosition(ccp(size.width, 0));
             objNode->addChild(lbl);
@@ -322,11 +328,11 @@ void CCLabelBMFontExt::updateLabel()
             auto spr = EmojiNode::createWithKey(part.extra);
 
             if (!spr)
-                return;
+                continue;
 
             spr->setPosition(ccp(size.width + x / 2, 0));
             spr->setAnchorPoint(ccp(0, 0));
-            spr->setScale(h / spr->getContentHeight());
+            spr->setScale(spr->getContentHeight() == 0 ? 1 : (h / spr->getContentHeight()));
             spr->setOpacity(opacity);
             objNode->addChild(spr);
 

@@ -44,19 +44,22 @@ std::vector<CCLabelBMFontExt*> TextAreaExt::splitStringIntoLabels(int lineCount)
     {
         for (auto part : lbl->parts)
         {
-            x += part.node->getScaledContentWidth();
-            ps.push_back(part);
-
-            if (x + part.node->getScaledContentWidth() > this->getContentWidth())
+            if (part.node)
             {
-                x = 0;
+                x += part.node->getScaledContentWidth();
+                ps.push_back(part);
 
-                auto str = LabelPart::stringFromVector(ps);
+                if (x + part.node->getScaledContentWidth() > this->getContentWidth())
+                {
+                    x = 0;
 
-                auto l = CCLabelBMFontExt::create(str.c_str(), font);
-                lbls.push_back(l);
+                    auto str = LabelPart::stringFromVector(ps);
 
-                ps.clear();
+                    auto l = CCLabelBMFontExt::create(str.c_str(), font);
+                    lbls.push_back(l);
+
+                    ps.clear();
+                }
             }
         }
 

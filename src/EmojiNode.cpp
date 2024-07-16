@@ -1,11 +1,51 @@
 #include "EmojiNode.hpp"
 
+bool EmojiNode::init(std::string key)
+{
+    for (auto emoji : getAnimatedEmojis())
+    {
+        if (emoji.first == key)
+        {
+            return EmojiNode::initWithAnimatedSprite(key, emoji.second);
+        }
+    }
+
+    return EmojiNode::initWithKey(key);
+}
+
 bool EmojiNode::initWithKey(std::string key)
 {
-    if (!CCSprite::initWithSpriteFrameName(frameForKey(key)))
+    return CCSprite::initWithSpriteFrameName(frameForKey(key));
+}
+
+bool EmojiNode::initWithAnimatedSprite(std::string key, float rate)
+{
+    if (!CCSprite::init())
         return false;
 
-    
+    for (size_t i = 1; i < 69; i++)
+    {
+        auto s = fmt::format("{}{}_{}.png", ""_spr, key, i).c_str();
+
+        if (auto frame = CCSpriteFrameCache::get()->m_pSpriteFrames->objectForKey(s))
+        {
+            auto f = CCSprite::createWithSpriteFrame(as<CCSpriteFrame*>(frame));
+            f->setVisible(frames.size() == 0);
+            f->setTag(i);
+            this->setContentSize(f->getContentSize());
+            f->setPosition(f->getContentSize() / 2);
+
+            frames.push_back(f);
+            this->addChild(f);
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    if (frames.size() > 0)
+        this->schedule(schedule_selector(EmojiNode::updateFrame), rate);
 
     return true;
 }
@@ -14,7 +54,7 @@ EmojiNode* EmojiNode::createWithKey(std::string key)
 {
     auto pRet = new EmojiNode();
 
-    if (pRet && pRet->initWithKey(key))
+    if (pRet && pRet->init(key))
     {
         pRet->autorelease();
         return pRet;
@@ -22,6 +62,23 @@ EmojiNode* EmojiNode::createWithKey(std::string key)
 
     CC_SAFE_DELETE(pRet);
     return nullptr;
+}
+
+void EmojiNode::updateFrame(float)
+{
+    currentFrame++;
+
+    if (currentFrame >= frames.size())
+        currentFrame = 0;
+
+    int i = 0;
+    for (auto frame : frames)
+    {
+        frames[i]->setVisible(i == currentFrame);
+        i++;
+    }
+
+    //this->setDisplayFrame(frames[currentFrame]);
 }
 
 const char* EmojiNode::frameForKey(std::string key)
@@ -112,10 +169,12 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("sob"),
     _Emoji("eggplant"),
     _Emoji("clown"),
+    _Emoji("tongue"),
 
     std::pair("$$newline$$Other", "$$newline$$"),
 
     //other
+    _Emoji("amongus"),
     _Emoji("amogus"),
     _Emoji("bruh"),
     _Emoji("carlos"),
@@ -146,11 +205,37 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("soggy"),
     _Emoji("mayo"),
     _Emoji("divine"),
+    _Emoji("bueno"),
     _Emoji("rattledash"),
     _Emoji("gd"),
     std::pair("geode", "geode-icon.png"_spr),
     _Emoji("boar"),
     _Emoji("mewhen"),
+    _Emoji("changetopic"),
+    _Emoji("touchgrass"),
+    _Emoji("gggggggg"),
+    _Emoji("gdok"),
+    _Emoji("hug"),
+    _Emoji("angy"),
+    _Emoji("lewd"),
+    _Emoji("headpat"),
+    _Emoji("transcat"),
+    _Emoji("transcat2"),
+    _Emoji("skillissue"),
+    _Emoji("yes"),
+    _Emoji("gunleft"),
+    _Emoji("gunright"),
+    _Emoji("edge"),
+    _Emoji("cologne"),
+    _Emoji("globed"),
+    _Emoji("levelthumbnails"),
+    _Emoji("oh"),
+    _Emoji("holymoly"),
+    _Emoji("1000yardstare"),
+    _Emoji("spunchbob"),
+    _Emoji("freakbob"),
+    _Emoji("nuhuh"),
+    _Emoji("yuhuh"),
 
     // players
     std::pair("$$newline$$Players", "$$newline$$"),
@@ -180,7 +265,7 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("catderp"),
     _Emoji("catfacepalm"),
     _Emoji("catfine"),
-    // _Emoji("catgasm"),
+    _Emoji("catgasm"),
     _Emoji("catgasp"),
     _Emoji("catgift"),
     _Emoji("catgrump"),
@@ -212,7 +297,16 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("catthinking"),
 };
 
+std::vector<std::pair<std::string, float>> animated = {
+    std::pair("shiggy", 0.02f),
+};
+
 std::vector<std::pair<std::string, std::string>> EmojiNode::getEmojis()
 {
     return emojis;
+}
+
+std::vector<std::pair<std::string, float>> EmojiNode::getAnimatedEmojis()
+{
+    return animated;
 }
