@@ -149,7 +149,7 @@ void EmojiPickPopup::populateScroll(CCContentLayer* content)
 
 void EmojiPickPopup::onPickEmoji(CCObject* sender)
 {
-    input->setString(input->getString() + std::string(":") + as<CCNode*>(sender)->getID() + std::string(":"));
+    input->setString(fmt::format("{}:{}:", input->getString(), as<CCNode*>(sender)->getID()));
 }
 
 EmojiPickPopup* EmojiPickPopup::create(CCTextInputNode* input, CCNode* node)
