@@ -11,7 +11,8 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
         CCTextInputNode* inp = nullptr;
     };
 
-    void onEmojis(CCObject *) {
+    void onEmojis(CCObject*)
+    {
         if (m_fields->inp)
         {
             m_fields->inp->onClickTrackNode(false);
@@ -44,15 +45,5 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
         m_fields->isComment = true;
 
         return true;
-    }
-
-    virtual void textChanged(CCTextInputNode* textInput)
-    {
-        ShareCommentLayer::textChanged(textInput);
-
-        if (m_fields->isComment)
-        {
-            
-        }
     }
 };

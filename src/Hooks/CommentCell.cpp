@@ -60,8 +60,11 @@ class $modify (CommentCell) {
             }
 
 
-            if (comment->m_hasLevelID && comment->m_accountID == 16778880)
+            if (!m_accountComment && comment->m_accountID == 16778880)
             {
+                if (!getChildByID("username-label"))
+                    return;
+                
                 auto badge = CCSprite::createWithSpriteFrameName("geode-icon.png"_spr);
                 badge->setScale(0.38f);
                 badge->setPosition(panel->getChildByID("username-label")->getPosition() + ccp(panel->getChildByID("username-label")->getScaledContentWidth(), 0) + ccp(8.125f, -1));

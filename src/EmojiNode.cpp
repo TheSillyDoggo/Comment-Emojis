@@ -23,7 +23,7 @@ bool EmojiNode::initWithAnimatedSprite(std::string key, float rate)
     if (!CCSprite::init())
         return false;
 
-    for (size_t i = 1; i < 69; i++)
+    for (size_t i = 1; i < 420; i++)
     {
         auto s = fmt::format("{}{}_{}.png", ""_spr, key, i).c_str();
 
@@ -114,33 +114,33 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     std::pair("insanedemon", "diffIcon_09_btn_001.png"),
     std::pair("extremedemon", "diffIcon_10_btn_001.png"),
 
-    std::pair("star", "GJ_starsIcon_001.png"),
+    std::pair("star", "GJ_starsIcon_001.png"_spr),
 
-    std::pair("orb", "currencyOrb_001.png"),
-    std::pair("orbs", "currencyOrbIcon_001.png"),
+    std::pair("orb", "currencyOrb_001.png"_spr),
+    std::pair("orbs", "currencyOrbIcon_001.png"_spr),
 
-    std::pair("diamond", "diamond_small01_001.png"),
-    std::pair("diamonds", "currencyDiamondIcon_001.png"),
+    std::pair("diamond", "diamond_small01_001.png"_spr),
+    std::pair("diamonds", "currencyDiamondIcon_001.png"_spr),
 
-    std::pair("like", "GJ_likesIcon_001.png"),
+    std::pair("like", "GJ_likesIcon_001.png"_spr),
     std::pair("dislike", "GJ_dislikesIcon_001.png"_spr), // rob i genuinely hate you for making it this differetn size it is size size different
 
     std::pair("check", "GJ_completesIcon_001.png"),
-    std::pair("cross", "GJ_deleteIcon_001.png"),
+    std::pair("cross", "GJ_deleteIcon_001.png"_spr),
 
-    std::pair("locked", "GJLargeLock_001.png"),
-    std::pair("lockedgray", "GJ_lockGray_001.png"),
-    std::pair("unlocked", "GJ_lock_open_001.png"),
+    std::pair("locked", "GJLargeLock_001.png"_spr),
+    std::pair("lockedgray", "GJ_lockGray_001.png"_spr),
+    std::pair("unlocked", "GJ_lock_open_001.png"_spr),
 
-    std::pair("goldcoin", "GJ_coinsIcon_001.png"),
+    std::pair("goldcoin", "GJ_coinsIcon_001.png"_spr),
     std::pair("uncollectedusercoin", "GJ_coinsIcon_gray_001.png"),
     _Emoji("usercoinunverified"),
-    std::pair("usercoin", "GJ_coinsIcon2_001.png"),
-    std::pair("points", "GJ_pointsIcon_001.png"),
+    std::pair("usercoin", "GJ_coinsIcon2_001.png"_spr),
+    std::pair("points", "GJ_pointsIcon_001.png"_spr),
 
-    std::pair("mod", "modBadge_01_001.png"),
-    std::pair("eldermod", "modBadge_02_001.png"),
-    std::pair("leaderboardmod", "modBadge_03_001.png"),
+    std::pair("mod", "modBadge_01_001.png"_spr),
+    std::pair("eldermod", "modBadge_02_001.png"_spr),
+    std::pair("leaderboardmod", "modBadge_03_001.png"_spr),
 
     std::pair("$$newline$$Discord", "$$newline$$"),
 
@@ -306,6 +306,7 @@ std::vector<std::pair<std::string, float>> animated = {
     std::pair("partying", 0.04f),
     std::pair("ned_explosion", 0.02f),
     std::pair("polarbear", 0.03f),
+    std::pair("colonthreecat", 0.03f),
 };
 
 std::vector<std::pair<std::string, std::string>> EmojiNode::getEmojis()
