@@ -1,6 +1,6 @@
 {
-	"geode": "3.2.0",
-	"version": "v1.0.1",
+	"geode": "3.4.0",
+	"version": "v1.1.0",
 	"gd": {
 		"win": "2.206",
         "mac": "2.206",
@@ -27,6 +27,9 @@
 			"GJ_EmojiSheet03": [
 				"emojis/players/*.png"
 			],
+			"GJ_EmojiSheet04": [
+				"emojis/cube/*.png"
+			],
 			"GJ_AnimatedEmojiSheet01": [
 				"emojis/animated/shiggy/*.png",
 				"emojis/animated/hype/*.png",
@@ -35,7 +38,11 @@
 				"emojis/animated/partying/*.png",
 				"emojis/animated/ned_explosion/*.png",
 				"emojis/animated/polarbear/*.png",
-				"emojis/animated/colonthreecat/*.png"
+				"emojis/animated/colonthreecat/*.png",
+				"emojis/animated/cubedance/*.png",
+				"emojis/animated/cubespeen/*.png",
+				"emojis/animated/cubehyperthink/*.png",
+				"emojis/animated/deltaruneexplosion/*.png"
 			],
 			"GJ_EmojiUISheet": [
 				"resources/*.png"

@@ -253,6 +253,30 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("thesillydoggo"),
     _Emoji("uproxide"),
 
+    std::pair("$$newline$$Cube Emotes (By @cyanflower on discord)", "$$newline$$"),
+
+    _Emoji("cubeconfused"),
+    //_Emoji("cubedance"),
+    _Emoji("cubestare"),
+    _Emoji("cubehappy"),
+    _Emoji("cubewave"),
+    //_Emoji("cubehyperthink"),
+    _Emoji("cubeletsgo"),
+    _Emoji("cubepog"),
+    _Emoji("cubescared"),
+    //_Emoji("cubespeen"),
+    _Emoji("cubethink"),
+    _Emoji("cubecool"),
+    _Emoji("cubeview"),
+    _Emoji("cubewink"),
+    _Emoji("defaultangry"),
+    _Emoji("robtoppixel"),
+    _Emoji("smugzero"),
+    _Emoji("cubeballin"),
+    _Emoji("eeyikes"),
+    _Emoji("boshytime"),
+    _Emoji("fumocube"),
+    
     // cat collection, thank you c# discord. i wuv you <3
     std::pair("$$newline$$Cat Collection", "$$newline$$"),
 
@@ -307,6 +331,10 @@ std::vector<std::pair<std::string, float>> animated = {
     std::pair("ned_explosion", 0.02f),
     std::pair("polarbear", 0.03f),
     std::pair("colonthreecat", 0.03f),
+    std::pair("cubedance", 0.07f),
+    std::pair("cubespeen", 0.04f),
+    std::pair("cubehyperthink", 0.05f),
+    std::pair("deltaruneexplosion", 1.0f / 17.0f),
 };
 
 std::vector<std::pair<std::string, std::string>> EmojiNode::getEmojis()
