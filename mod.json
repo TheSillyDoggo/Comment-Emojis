@@ -1,21 +1,21 @@
 {
-	"geode": "3.4.0",
-	"version": "v1.1.0",
+	"geode": "3.7.1",
+	"version": "v1.1.1",
 	"gd": {
 		"win": "2.206",
-        "mac": "2.206",
-		"android": "*",
+		"mac": "2.206",
+		"android": "2.206",
 		"ios": "2.206"
 	},
 	"id": "thesillydoggo.comment_emojis",
 	"name": "Emojis in Comments",
 	"dependencies": [
-        {
-            "id": "geode.node-ids",
-            "version": ">=1.12.0-beta.2",
-            "importance": "required"
-        }
-    ],
+		{
+			"id": "geode.node-ids",
+			"version": ">=1.12.0-beta.2",
+			"importance": "required"
+		}
+	],
 	"resources": {
 		"spritesheets": {
 			"GJ_EmojiSheet": [
@@ -51,5 +51,8 @@
 	},
 	"developer": "TheSillyDoggo",
 	"description": "Allows you to post emojis in the comments of levels (and on account posts)",
-	"repository": "https://github.com/TheSillyDoggo/Comment-Emojis"
+	"repository": "https://github.com/TheSillyDoggo/Comment-Emojis",
+    "links": {
+		"source": "https://github.com/TheSillyDoggo/Comment-Emojis"
+    }
 }
