@@ -18,10 +18,10 @@ class $modify (GlobedChatListPopupExt, FLAlertLayer)
 
         if (auto popup = typeinfo_cast<GlobedChatListPopup*>(this))
         {
-            if (auto menu = getChildOfType<CCMenu>(popup->m_mainLayer, -1))
+            if (auto menu = popup->m_mainLayer->getChildByType<CCMenu>(-1))
             {
                 as<AxisLayout*>(menu->getLayout())->setAutoScale(false);
-                m_fields->input = getChildOfType<TextInput>(menu, 0);
+                m_fields->input = menu->getChildByType<TextInput>(0);
 
                 auto spr = CCSprite::createWithSpriteFrameName("emoji-icon-thicker.png"_spr);
                 spr->setOpacity(100);

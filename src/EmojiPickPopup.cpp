@@ -155,7 +155,7 @@ void EmojiPickPopup::onPickEmoji(CCObject* sender)
 EmojiPickPopup* EmojiPickPopup::create(CCTextInputNode* input, CCNode* node)
 {
     auto ret = new EmojiPickPopup();
-    if (ret && ret->init(360, 200, input, node))
+    if (ret && ret->initAnchored(360, 200, input, node))
     {
         ret->autorelease();
         return ret;

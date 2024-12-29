@@ -1,11 +1,11 @@
 {
-	"geode": "3.7.1",
+	"geode": "4.1.0",
 	"version": "v1.1.1",
 	"gd": {
-		"win": "2.206",
-		"mac": "2.206",
-		"android": "2.206",
-		"ios": "2.206"
+		"win": "2.2074",
+		"mac": "2.2074",
+		"android": "2.2074",
+		"ios": "2.2074"
 	},
 	"id": "thesillydoggo.comment_emojis",
 	"name": "Emojis in Comments",

@@ -17,9 +17,9 @@ class $modify (CommentPopupExt, FLAlertLayer)
         FLAlertLayer::show();
         if (typeinfo_cast<CommentPopup*>(this) && this->getID() == "firee.object-workshop/CommentPopup")
         {
-            if (auto menu = getChildOfType<CCMenu>(m_mainLayer, 0))
+            if (auto menu = m_mainLayer->getChildByType<CCMenu>(0))
             {
-                m_fields->inp = getChildOfType<CCTextInputNode>(menu, 0);
+                m_fields->inp = menu->getChildByType<CCTextInputNode>(0);
                 auto spr = CCSprite::createWithSpriteFrameName("emoji-icon-thicker.png"_spr);
                 spr->setScale(0.8f);
                 spr->setOpacity(100);

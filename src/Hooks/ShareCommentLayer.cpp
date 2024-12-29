@@ -28,9 +28,9 @@ class $modify (ShareCommentLayerExt, ShareCommentLayer)
         if (type == CommentType::FriendRequest)
             return true;
 
-        m_fields->inp = getChildOfType<CCTextInputNode>(m_mainLayer, 0);
+        m_fields->inp = m_mainLayer->getChildByType<CCTextInputNode>(0);
 
-        if (auto menu = getChildOfType<CCMenu>(m_mainLayer, 0))
+        if (auto menu = m_mainLayer->getChildByType<CCMenu>(0))
         {
             auto spr = CCSprite::createWithSpriteFrameName("emoji-icon-thicker.png"_spr);
             spr->setScale(0.8f);

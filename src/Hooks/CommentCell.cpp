@@ -15,7 +15,7 @@ class $modify (CommentCell) {
     {
         CommentCell::loadFromComment(comment);
 
-        if (auto panel = getChildOfType<CCLayer>(this, 1))
+        if (auto panel = this->getChildByType<CCLayer>(1))
         {
             if (auto txt = panel->getChildByID("comment-text-label"))
             {
