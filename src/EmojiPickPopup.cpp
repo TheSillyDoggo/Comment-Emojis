@@ -8,6 +8,9 @@ bool EmojiPickPopup::setup(CCTextInputNode* input, CCNode* node)
     this->setOpacity(0);
     this->runAction(CCFadeTo::create(0.35f, 100));
 
+    m_mainLayer->ignoreAnchorPointForPosition(true);
+    m_mainLayer->setPosition(ccp(0, 0));
+
     hideNode = CCNode::create();
     hideNode->setPosition(CCDirector::get()->getWinSize() / 2);
     hideNode->setAnchorPoint(ccp(0.5f, 0.5f));

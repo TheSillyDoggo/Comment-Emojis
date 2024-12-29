@@ -253,7 +253,7 @@ std::vector<std::pair<std::string, std::string>> emojis = {
     _Emoji("thesillydoggo"),
     _Emoji("uproxide"),
 
-    std::pair("$$newline$$Cube Emotes (By @cyanflower on discord)", "$$newline$$"),
+    std::pair("$$newline$$Cube Emotes (By @cyanflower)", "$$newline$$"),
 
     _Emoji("cubeconfused"),
     //_Emoji("cubedance"),
