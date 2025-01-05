@@ -13,4 +13,25 @@ using namespace geode::prelude;
 #include "CCLabelBMFontExt.hpp"
 #include "TextAreaExt.hpp"
 
-/**/
+namespace QOLModExt
+{
+    class CommentEmojisOverrideLabelCreatePrivateEventPleaseDoNotUseOrIWillTouchYou : public Event
+    {
+        public:
+            std::function<CCLabelBMFont*()> function;
+
+            CommentEmojisOverrideLabelCreatePrivateEventPleaseDoNotUseOrIWillTouchYou(std::function<CCLabelBMFont*()> function)
+            {
+                this->function = function;
+            }
+    };
+};
+
+$execute
+{
+    auto e = QOLModExt::CommentEmojisOverrideLabelCreatePrivateEventPleaseDoNotUseOrIWillTouchYou([]
+    {
+        return CCLabelBMFontExt::create("L", "bigFont.fnt");
+    });
+    e.post();
+};

@@ -40,7 +40,7 @@ class CCLabelBMFontExt : public CCLabelBMFont {
         std::string string = "";
         std::string font = "";
         CCTextAlignment alignment;
-        ccColor3B colour;
+        ccColor3B colour = ccc3(255, 255, 255);
         GLubyte opacity = 255;
         CCNode* objNode;
         std::vector<LabelPart> parts;

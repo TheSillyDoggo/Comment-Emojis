@@ -227,6 +227,7 @@ void CCLabelBMFontExt::updateLabel()
 
     objNode->removeAllChildrenWithCleanup(true);
 
+    auto oldParts = parts;
     parts.clear();
 
     CCSize size = CCSizeMake(0, 0);
