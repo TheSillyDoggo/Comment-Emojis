@@ -44,8 +44,10 @@ bool EmojiNode::initWithAnimatedSprite(std::string key, float rate)
         }
     }
 
+    this->rate = rate;
+
     if (frames.size() > 0)
-        this->schedule(schedule_selector(EmojiNode::updateFrame), rate);
+        this->scheduleUpdate();
 
     return true;
 }
@@ -66,19 +68,29 @@ EmojiNode* EmojiNode::createWithKey(std::string key)
 
 void EmojiNode::updateFrame(float)
 {
-    currentFrame++;
-
-    if (currentFrame >= frames.size())
-        currentFrame = 0;
-
     int i = 0;
     for (auto frame : frames)
     {
         frames[i]->setVisible(i == currentFrame);
         i++;
     }
+}
 
-    //this->setDisplayFrame(frames[currentFrame]);
+void EmojiNode::update(float dt)
+{
+    progress = progress + dt;
+
+    if (progress > rate)
+    {
+        progress -= rate;
+
+        currentFrame++;
+
+        if (currentFrame >= frames.size())
+            currentFrame = 0;
+
+        updateFrame(0.80085f);
+    }
 }
 
 const char* EmojiNode::frameForKey(std::string key)

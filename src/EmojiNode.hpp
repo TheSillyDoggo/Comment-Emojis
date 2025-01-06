@@ -10,9 +10,13 @@ class EmojiNode : public CCSprite
 {
     public:
         int currentFrame;
+        float progress = 0;
+        float rate = 0;
         std::vector<CCSprite*> frames;
 
+
         void updateFrame(float);
+        virtual void update(float dt);
 
         bool init(std::string key);
         bool initWithKey(std::string key);

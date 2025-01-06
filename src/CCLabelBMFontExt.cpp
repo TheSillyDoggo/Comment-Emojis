@@ -227,7 +227,11 @@ void CCLabelBMFontExt::updateLabel()
 
     objNode->removeAllChildrenWithCleanup(true);
 
-    auto oldParts = parts;
+    for (auto& oldPart : oldParts)
+    {
+        oldPart.node = nullptr;
+    }
+
     parts.clear();
 
     CCSize size = CCSizeMake(0, 0);
@@ -331,6 +335,21 @@ void CCLabelBMFontExt::updateLabel()
             if (!spr)
                 continue;
 
+            if (!oldParts.empty())
+            {
+                if (oldParts.size() - 1 >= i)
+                {
+                    if (oldParts[i].type == LabelPartType::Emoji && oldParts[i].extra == parts[i].extra)
+                    {
+                        spr->progress = oldParts[i].progress;
+                        parts[i].progress = oldParts[i].progress + CCDirector::get()->getDeltaTime();
+
+                        spr->update(CCDirector::get()->getDeltaTime());
+                        spr->updateFrame(0);
+                    }
+                }
+            }
+
             spr->setPosition(ccp(size.width + x / 2, 0));
             spr->setAnchorPoint(ccp(0, 0));
             spr->setScale(spr->getContentHeight() == 0 ? 1 : (h / spr->getContentHeight()));
@@ -346,6 +365,8 @@ void CCLabelBMFontExt::updateLabel()
     }
 
     this->setContentSize(size);
+
+    oldParts = parts;
 }
 
 void CCLabelBMFontExt::addChild(CCNode* child)

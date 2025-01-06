@@ -14,7 +14,8 @@ using namespace geode::prelude;
 
 //#define _Emoji(id) std::pair(id, std::string(""_spr) + id + std::string(".png"))
 
-enum LabelPartType {
+enum LabelPartType
+{
     Text,
     Emoji,
     Username,
@@ -22,10 +23,12 @@ enum LabelPartType {
     Level
 };
 
-struct LabelPart {
+struct LabelPart
+{
     LabelPartType type = LabelPartType::Text;
     std::string extra;
-    CCNode* node;
+    CCNode* node = nullptr;
+    float progress = 0.0f;
 
     LabelPart(LabelPartType type, std::string ext);
 
@@ -35,7 +38,8 @@ struct LabelPart {
     bool isValidEmoji();
 };
 
-class CCLabelBMFontExt : public CCLabelBMFont {
+class CCLabelBMFontExt : public CCLabelBMFont
+{
     public:
         std::string string = "";
         std::string font = "";
@@ -44,6 +48,7 @@ class CCLabelBMFontExt : public CCLabelBMFont {
         GLubyte opacity = 255;
         CCNode* objNode;
         std::vector<LabelPart> parts;
+        std::vector<LabelPart> oldParts;
 
         virtual void setString(const char *newString);
         virtual void setString(const char *newString, bool needUpdateLabel);
